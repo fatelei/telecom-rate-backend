@@ -36,4 +36,4 @@ class Product {
   }
 }
 
-export default Product
+module.export = Product

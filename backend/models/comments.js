@@ -53,4 +53,4 @@ class Comment {
   }
 }
 
-export default Comment
+module.export = Comment
