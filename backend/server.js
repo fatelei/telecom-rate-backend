@@ -2,7 +2,7 @@
 
 const Hapi = require('hapi');
 const products = require('./apis/products')
-const comments = require('./aps/comments')
+const comments = require('./apis/comments')
 
 
 // Create a server with a host and port
