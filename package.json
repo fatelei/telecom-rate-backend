@@ -1,0 +1,20 @@
+{
+  "name": "telecom-rate-backend",
+  "version": "1.0.0",
+  "description": "telecom rate backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "make test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/fatelei/telecom-rate-backend.git"
+  },
+  "author": "fatelei@gmail.com",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/fatelei/telecom-rate-backend#readme",
+  "dependencies": {
+    "mysql": "2.10.2",
+    "hapi": "13.3.0"
+  }
+}
