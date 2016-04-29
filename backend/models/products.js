@@ -35,14 +35,25 @@ class Product {
     })
   }
 
-  static update(productId, values) {
+  static incrCommentCount(productId) {
     return new Promise((resolve, reject) => {
-      let sql = 'update product set ? where id = ?'
-      pool.query(sql, [values, protected], (err, rows, fields) => {
+      let sql = 'select comment_count from product where id = ?'
+      pool.query(sql, [productId], (err, rows, fields) => {
         if (err) {
           reject(err)
         } else {
-          resolve(rows)
+          if (rows.length) {
+            let tmp = rows[0]
+            tmp.comment_count += 1
+            sql = 'update product set comment_count = ? where id =?'
+            pool.query(sql, [tmp.comment_count, productId], (err, rows, fields) => {
+              if (err) {
+                reject(err)
+              } else {
+                resolve(tmp)
+              }
+            })
+          }
         }
       })
     })
