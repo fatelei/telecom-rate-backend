@@ -6,7 +6,7 @@ const pool = require('./db')
 class Product {
   static getProducts(offset, limit) {
     return new Promise((resolve, reject) => {
-      offset = offset * limit
+      offset = (offset - 1) * limit
       let sql = 'select * from product limit ?, ?'
       pool.query(sql, [offset, limit], (err, rows, fields) => {
         if (err) {

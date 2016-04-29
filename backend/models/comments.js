@@ -6,7 +6,7 @@ const pool = require('./db')
 class Comment {
   static getComments(productId, offset, limit) {
     return new Promise((resolve, reject) => {
-      offset = offset * limit
+      offset = (offset - 1) * limit
       let sql = 'select * from comment where product_id = ? limit ?, ?'
       pool.query(sql, [productId, offset, limit], (err, rows, fields) => {
         if (err) {
