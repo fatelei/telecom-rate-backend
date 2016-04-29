@@ -3,7 +3,7 @@
 const Comments = require('../models/comments')
 const Product = require('../models/products')
 
-export getProducts = (request, reply) => {
+export.getProducts = (request, reply) => {
   let query = request.query
   let pageNum = query.page_num || 0
   let limit = query.limit || 100
@@ -44,7 +44,7 @@ export getProducts = (request, reply) => {
   })
 }
 
-export getProductById = (request, reply) => {
+export.getProductById = (request, reply) => {
   let productId = request.params.id
 
   Product.getProductById(productId).then((values) => {
@@ -68,7 +68,7 @@ export getProductById = (request, reply) => {
   })
 }
 
-export getComments = (request, reply) => {
+export.getComments = (request, reply) => {
   let productId = request.params.id
   let query = request.query
   let pageNum = query.page_num || 0
