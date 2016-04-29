@@ -40,7 +40,7 @@ products = [
 try:
     with connection.cursor() as cursor:
         # Create a new record
-        for i in xrange(100):
+        for i in xrange(len(products)):
             updated_at, created_at = int(time.time()), int(time.time())
             sql = "INSERT INTO `product` (`name`, `description`, `image_url`, `type`, `created_at`, `updated_at`) VALUES (%s, %s, %s, %s, %s, %s)"
             cursor.execute(sql, (
