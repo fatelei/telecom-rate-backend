@@ -3,6 +3,7 @@
 const Comments = require('../models/comments')
 const Macro = require('../common/const')
 const Product = require('../models/products')
+const generatePaging = require('../utils/utils').generatePaging
 
 
 exports.getProducts = (request, reply) => {
@@ -13,10 +14,15 @@ exports.getProducts = (request, reply) => {
   pageNum = parseInt(pageNum, 10)
   limit = parseInt(limit, 10)
 
+  let host = request.info.host
+  let pathname = request.route.path
+  let prev = generatePaging(host, pathname, {page_num: pageNum, limit: limit})
+  let next = generatePaging(host, pathname, {page_num: pageNum + 1, limit: limit})
+
   let data = {
     paging: {
-      prev: '',
-      next: ''
+      prev: prev,
+      next: next
     },
     data: []
   }
@@ -81,10 +87,15 @@ exports.getComments = (request, reply) => {
   pageNum = parseInt(pageNum, 10)
   limit = parseInt(limit, 10)
 
+  let host = request.info.host
+  let pathname = request.route.path
+  let prev = generatePaging(host, pathname, {page_num: pageNum, limit: limit})
+  let next = generatePaging(host, pathname, {page_num: pageNum + 1, limit: limit})
+
   let data = {
     paging: {
-      prev: '',
-      next: ''
+      prev: prev,
+      next: next
     },
     total: 0,
     data: []
