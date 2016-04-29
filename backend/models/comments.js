@@ -40,13 +40,13 @@ class Comment {
   }
 
   static getCommentsNumber(productId) {
-    let sql = 'select count(*) from comment where product_id = ?'
+    let sql = 'select count(*) as count from comment where product_id = ?'
     return new Promise((resolve, reject) => {
       pool.query(sql, [productId], (err, rows, fields) => {
         if (err) {
           reject(0)
         } else {
-          resolve(rows[0])
+          resolve(rows[0].count)
         }
       })
     })
