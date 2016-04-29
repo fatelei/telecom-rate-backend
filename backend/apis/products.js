@@ -94,10 +94,10 @@ exports.getComments = (request, reply) => {
     let items = []
     for (let i = 0; i < values.length; i++) {
       items.push({
-        id: values[i][0],
-        content: values[i][2],
-        username: values[i][3],
-        created_at: values[i][4]
+        id: values[i].id,
+        content: values[i].content,
+        username: values[i].username,
+        created_at: values[i].created_at
       })
     }
 
