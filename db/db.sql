@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS product (
   `image_url` VARCHAR(200) DEFAULT '',
   `created_at` INT UNSIGNED DEFAULT 0,
   `updated_at` INT UNSIGNED DEFAULT 0,
+  `type` TINYINT DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

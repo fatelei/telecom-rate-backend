@@ -1,7 +1,9 @@
 'use strict';
 
 const Comments = require('../models/comments')
+const Macro = require('../common/const')
 const Product = require('../models/products')
+
 
 exports.getProducts = (request, reply) => {
   let query = request.query
@@ -31,7 +33,8 @@ exports.getProducts = (request, reply) => {
         purchase_count: values[i][5],
         image_url: values[i][6],
         created_at: values[i][7],
-        updated_at: values[i][8]
+        updated_at: values[i][8],
+        type: Macro.product_type[values[i][9]]
       })
     }
 
@@ -57,7 +60,8 @@ exports.getProductById = (request, reply) => {
       purchase_count: values[5],
       image_url: values[6],
       created_at: values[7],
-      updated_at: values[8]
+      updated_at: values[8],
+      type: Macro.product_type[values[i][9]]
     }
 
     return reply(JSON.stringify(data))
