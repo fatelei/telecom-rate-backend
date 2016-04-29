@@ -16,7 +16,8 @@ exports.getProducts = (request, reply) => {
 
   let host = request.info.host
   let pathname = request.route.path
-  let prev = generatePaging(host, pathname, {page_num: pageNum, limit: limit})
+  let before = pageNum == 1 ? pageNum : pageNum - 1
+  let prev = generatePaging(host, pathname, {page_num: before, limit: limit})
   let next = generatePaging(host, pathname, {page_num: pageNum + 1, limit: limit})
 
   let data = {
@@ -81,7 +82,7 @@ exports.getProductById = (request, reply) => {
 exports.getComments = (request, reply) => {
   let productId = request.params.id
   let query = request.query
-  let pageNum = query.page_num || 0
+  let pageNum = query.page_num || 1
   let limit = query.limit || 100
 
   pageNum = parseInt(pageNum, 10)
@@ -89,7 +90,9 @@ exports.getComments = (request, reply) => {
 
   let host = request.info.host
   let pathname = request.route.path
-  let prev = generatePaging(host, pathname, {page_num: pageNum, limit: limit})
+
+  let before = pageNum == 1 ? pageNum : pageNum - 1
+  let prev = generatePaging(host, pathname, {page_num: before, limit: limit})
   let next = generatePaging(host, pathname, {page_num: pageNum + 1, limit: limit})
 
   let data = {
