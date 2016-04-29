@@ -34,6 +34,19 @@ class Product {
       })
     })
   }
+
+  static update(productId, values) {
+    return new Promise((resolve, reject) => {
+      let sql = 'update product set ? where id = ?'
+      pool.query(sql, [values, protected], (err, rows, fields) => {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(rows)
+        }
+      })
+    })
+  }
 }
 
 module.exports = Product
