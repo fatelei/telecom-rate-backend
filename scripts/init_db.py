@@ -6,7 +6,6 @@ import pymysql.cursors
 # Connect to the database
 connection = pymysql.connect(host='localhost',
                              user='root',
-                             password='123456',
                              db='telecom',
                              charset='utf8mb4',
                              cursorclass=pymysql.cursors.DictCursor)
@@ -49,8 +48,8 @@ try:
                 products[i]["description"],
                 products[i]["image_url"],
                 products[i]["type"],
-                products[i]["created_at"],
-                products[i]["updated_at"]
+                created_at,
+                updated_at
             ))
 
     # connection is not autocommit by default. So you must commit to save
