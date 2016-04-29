@@ -10,4 +10,4 @@ const pool  = mysql.createPool({
   database: 'telecom'
 });
 
-module.export = pool
+module.exports = pool

@@ -53,4 +53,4 @@ class Comment {
   }
 }
 
-module.export = Comment
+module.exports = Comment

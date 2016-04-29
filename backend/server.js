@@ -43,4 +43,4 @@ server.route({
   handler: products.getComments
 })
 
-module.export = server
+module.exports = server

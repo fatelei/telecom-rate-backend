@@ -36,4 +36,4 @@ class Product {
   }
 }
 
-module.export = Product
+module.exports = Product

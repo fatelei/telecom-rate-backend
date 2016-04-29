@@ -2,7 +2,7 @@
 
 const Comments = require('../models/comments')
 
-export.postComment = (request, reply) => {
+exports.postComment = (request, reply) => {
   let username = request.payload.username
   let content = request.payload.content
   let productId = request.params.id
