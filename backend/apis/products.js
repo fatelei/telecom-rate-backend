@@ -39,8 +39,8 @@ exports.getProducts = (request, reply) => {
         comment_count: values[i].comment_count,
         purchase_count: values[i].purchase_count,
         image_url: values[i].image_url,
-        created_at: values[i].created_at,
-        updated_at: values[i].updated_at,
+        created_at: values[i].created_at * 1000,
+        updated_at: values[i].updated_at * 1000,
         type: Macro.product_type[values[i].type]
       })
     }
@@ -66,8 +66,8 @@ exports.getProductById = (request, reply) => {
       comment_count: value.comment_count,
       purchase_count: value.purchase_count,
       image_url: value.image_url,
-      created_at: value.created_at,
-      updated_at: value.updated_at,
+      created_at: value.created_at * 1000,
+      updated_at: value.updated_at * 1000,
       type: Macro.product_type[value.type]
     }
 
@@ -111,7 +111,7 @@ exports.getComments = (request, reply) => {
         id: values[i].id,
         content: values[i].content,
         username: values[i].username,
-        created_at: values[i].created_at
+        created_at: values[i].created_at * 1000
       })
     }
 
