@@ -23,7 +23,7 @@ server.route({
   method: 'GET',
   path: '/products', 
   handler: products.getProducts
-})getProductById
+})
 
 server.route({
   method: 'GET',
