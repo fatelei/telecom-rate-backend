@@ -15,7 +15,7 @@ exports.getProducts = (request, reply) => {
   limit = parseInt(limit, 10)
 
   let host = request.info.host
-  let pathname = request.route.path
+  let pathname = request.path
   let before = pageNum == 1 ? pageNum : pageNum - 1
   let prev = generatePaging(host, pathname, {page_num: before, limit: limit})
   let next = generatePaging(host, pathname, {page_num: pageNum + 1, limit: limit})
@@ -89,7 +89,7 @@ exports.getComments = (request, reply) => {
   limit = parseInt(limit, 10)
 
   let host = request.info.host
-  let pathname = request.route.path
+  let pathname = request.path
 
   let before = pageNum == 1 ? pageNum : pageNum - 1
   let prev = generatePaging(host, pathname, {page_num: before, limit: limit})
