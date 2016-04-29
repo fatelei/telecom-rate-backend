@@ -25,16 +25,16 @@ exports.getProducts = (request, reply) => {
     let items = []
     for (let i = 0; i < values.length; i++) {
       items.push({
-        id: values[i][0],
-        name: values[i][1],
-        description: values[i][2],
-        rate: values[i][3],
-        comment_count: values[i][4],
-        purchase_count: values[i][5],
-        image_url: values[i][6],
-        created_at: values[i][7],
-        updated_at: values[i][8],
-        type: Macro.product_type[values[i][9]]
+        id: values[i].id,
+        name: values[i].name,
+        description: values[i].description,
+        rate: values[i].rate,
+        comment_count: values[i].comment_count,
+        purchase_count: values[i].purchase_count,
+        image_url: values[i].image_url,
+        created_at: values[i].created_at,
+        updated_at: values[i].updated_at,
+        type: Macro.product_type[values[i].type]
       })
     }
 
@@ -50,18 +50,18 @@ exports.getProducts = (request, reply) => {
 exports.getProductById = (request, reply) => {
   let productId = request.params.id
 
-  Product.getProductById(productId).then((values) => {
+  Product.getProductById(productId).then((value) => {
     let data = {
-      id: values[0],
-      name: values[1],
-      description: values[2],
-      rate: values[3],
-      comment_count: values[4],
-      purchase_count: values[5],
-      image_url: values[6],
-      created_at: values[7],
-      updated_at: values[8],
-      type: Macro.product_type[values[i][9]]
+      id: value.id,
+      name: value.name,
+      description: value.description,
+      rate: value.rate,
+      comment_count: value.comment_count,
+      purchase_count: value.purchase_count,
+      image_url: value.image_url,
+      created_at: value.created_at,
+      updated_at: value.updated_at,
+      type: Macro.product_type[value.type]
     }
 
     return reply(JSON.stringify(data))
