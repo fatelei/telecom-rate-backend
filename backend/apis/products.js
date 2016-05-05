@@ -56,7 +56,6 @@ exports.getProducts = (request, reply) => {
 
   let p1 = null
   let p2 = null
-  let is_end = true
 
   if (type) {
     p1 = Product.getProductsByType(type, pageNum, limit)
@@ -76,6 +75,8 @@ exports.getProducts = (request, reply) => {
       pages += 1
     }
 
+    pages = pages === 0 ? 1 : pages
+
     if (pageNum < pages) {
       resp.paging.is_end = false
     }
@@ -84,7 +85,6 @@ exports.getProducts = (request, reply) => {
       data.push(formatProduct(items[i]))
     }
 
-    resp.is_end = is_end
     resp.data = data
 
     return reply(JSON.stringify(resp))
@@ -160,6 +160,7 @@ exports.getComments = (request, reply) => {
     if (total % 10 !== 0) {
       pages += 1
     }
+    pages = pages === 0 ? 1 : pages
 
     if (pageNum < pages) {
       resp.paging.is_end = false
@@ -169,7 +170,6 @@ exports.getComments = (request, reply) => {
       data.push(formatComment(items[i]))
     }
 
-    resp.is_end = is_end
     resp.data = data
     resp.total = total
 
