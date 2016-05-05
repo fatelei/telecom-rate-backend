@@ -18,6 +18,21 @@ class Product {
     })
   }
 
+  static getProductsByType(type, offset, limit) {
+    return new Promise((resolve, reject) => {
+      offset = (offset - 1) * limit
+      type = parseInt(type, 10)
+      let sql = 'select * from product where type = ? limit ?, ?'
+      pool.query(sql, [type, offset, limit], (err, rows, fields) => {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(rows)
+        }
+      })
+    })
+  }
+
   static getProductById(productId) {
     return new Promise((resolve, reject) => {
       let sql = 'select * from product where id = ?'
@@ -54,6 +69,33 @@ class Product {
               }
             })
           }
+        }
+      })
+    })
+  }
+
+  static getProductsNumByType(type) {
+    return new Promise((resolve, reject) => {
+      type = parseInt(type, 10)
+      let sql = 'select count(*) as num from product where type = ?'
+      pool.query(sql, [type], (err, rows, fields) => {
+        if (err) {
+          resolve(0)
+        } else {
+          resolve(rows[0].count)
+        }
+      })
+    })
+  }
+
+  static getProductsNum() {
+    return new Promise((resolve, reject) => {
+      let sql = 'select count(*) as num from product'
+      pool.query(sql, (err, rows, fields) => {
+        if (err) {
+          resolve(0)
+        } else {
+          resolve(rows[0].count)
         }
       })
     })

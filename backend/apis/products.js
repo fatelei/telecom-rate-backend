@@ -5,11 +5,36 @@ const Macro = require('../common/const')
 const Product = require('../models/products')
 const generatePaging = require('../utils/utils').generatePaging
 
+const formatProduct = (product) => {
+  return {
+    id: product.id,
+    name: product.name,
+    description: product.description,
+    rate: product.rate,
+    comment_count: product.comment_count,
+    purchase_count: product.purchase_count,
+    image_url: product.image_url,
+    created_at: product.created_at * 1000,
+    updated_at: product.updated_at * 1000,
+    type: Macro.product_type[product.type]
+  }
+}
+
+const formatComment = (comment) => {
+  return {
+    id: comment.id,
+    content: comment.content,
+    username: comment.username,
+    created_at: comment.created_at * 1000
+  }
+}
+
 
 exports.getProducts = (request, reply) => {
   let query = request.query
   let pageNum = query.page_num || 0
-  let limit = query.limit || 100
+  let type = query.type
+  let limit = query.limit || 10
 
   pageNum = parseInt(pageNum, 10)
   limit = parseInt(limit, 10)
@@ -20,36 +45,52 @@ exports.getProducts = (request, reply) => {
   let prev = generatePaging(host, pathname, {page_num: before, limit: limit})
   let next = generatePaging(host, pathname, {page_num: pageNum + 1, limit: limit})
 
-  let data = {
+  let resp = {
     paging: {
       prev: prev,
-      next: next
+      next: next,
+      is_end: true
     },
     data: []
   }
 
-  Product.getProducts(pageNum, limit).then((values) => {
-    let items = []
-    for (let i = 0; i < values.length; i++) {
-      items.push({
-        id: values[i].id,
-        name: values[i].name,
-        description: values[i].description,
-        rate: values[i].rate,
-        comment_count: values[i].comment_count,
-        purchase_count: values[i].purchase_count,
-        image_url: values[i].image_url,
-        created_at: values[i].created_at * 1000,
-        updated_at: values[i].updated_at * 1000,
-        type: Macro.product_type[values[i].type]
-      })
+  let p1 = null
+  let p2 = null
+  let is_end = true
+
+  if (type) {
+    p1 = Product.getProductsByType(type, pageNum, limit)
+    p2 = Product.getProductsNumByType(type)
+  } else {
+    p1 = Product.getProducts(type, pageNum, limit)
+    p2 = Product.getProductsNum()
+  }
+
+  Promise.all([p1, p2]).then((values) => {
+    let items = values[0]
+    let total = values[1]
+    let pages = Math.floor(total / 10)
+    let data = []
+
+    if (total % 10 !== 0) {
+      pages += 1
     }
 
-    data.data = items
-    return reply(JSON.stringify(data))
+    if (pageNum < pages) {
+      resp.paging.is_end = false
+    }
+
+    for (let i = 0; i < items.length; i++) {
+      data.push(formatProduct(items[i]))
+    }
+
+    resp.is_end = is_end
+    resp.data = data
+
+    return reply(JSON.stringify(resp))
       .type('application/json')
   }).catch((err) => {
-    return reply(JSON.stringify(data))
+    return reply(JSON.stringify(resp))
       .type('application/json')
   })
 }
@@ -95,38 +136,45 @@ exports.getComments = (request, reply) => {
   let prev = generatePaging(host, pathname, {page_num: before, limit: limit})
   let next = generatePaging(host, pathname, {page_num: pageNum + 1, limit: limit})
 
-  let data = {
+  let resp = {
     paging: {
       prev: prev,
-      next: next
+      next: next,
+      is_end: true
     },
     total: 0,
     data: []
   }
 
-  Comments.getComments(productId, pageNum, limit).then((values) => {
-    let items = []
-    for (let i = 0; i < values.length; i++) {
-      items.push({
-        id: values[i].id,
-        content: values[i].content,
-        username: values[i].username,
-        created_at: values[i].created_at * 1000
-      })
+  let p1 = Comments.getComments(productId, pageNum, limit)
+  let p2 = Comments.getCommentsNumber(productId)
+
+  Promise.all([p1, p2]).then((values) => {
+    let items = values[0]
+    let total = values[1]
+    let pages = Math.floor(total / 10)
+    let data = []
+
+    if (total % 10 !== 0) {
+      pages += 1
     }
 
-    data.data = items
+    if (pageNum < pages) {
+      resp.paging.is_end = false
+    }
 
-    Comments.getCommentsNumber(productId).then((total) => {
-      data.total = total
-      return reply(JSON.stringify(data))
-        .type('application/json')
-    }).catch((err) => {
-      return reply(JSON.stringify(data))
-        .type('application/json')
-    })    
+    for (let i = 0; i < items.length; i++) {
+      data.push(formatComment(items[i]))
+    }
+
+    resp.is_end = is_end
+    resp.data = data
+    resp.total = total
+
+    return reply(JSON.stringify(resp))
+      .type('application/json')
   }).catch((err) => {
-    return reply(JSON.stringify(data))
+    return reply(JSON.stringify(resp))
       .type('application/json')
   })
 }
