@@ -32,7 +32,7 @@ const formatComment = (comment) => {
 
 exports.getProducts = (request, reply) => {
   let query = request.query
-  let pageNum = query.page_num || 0
+  let pageNum = query.page_num || 1
   let type = query.type
   let limit = query.limit || 10
 
