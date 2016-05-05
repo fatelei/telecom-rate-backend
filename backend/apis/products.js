@@ -62,7 +62,7 @@ exports.getProducts = (request, reply) => {
     p1 = Product.getProductsByType(type, pageNum, limit)
     p2 = Product.getProductsNumByType(type)
   } else {
-    p1 = Product.getProducts(type, pageNum, limit)
+    p1 = Product.getProducts(pageNum, limit)
     p2 = Product.getProductsNum()
   }
 
@@ -90,6 +90,7 @@ exports.getProducts = (request, reply) => {
     return reply(JSON.stringify(resp))
       .type('application/json')
   }).catch((err) => {
+    console.error(err)
     return reply(JSON.stringify(resp))
       .type('application/json')
   })
@@ -115,6 +116,7 @@ exports.getProductById = (request, reply) => {
     return reply(JSON.stringify(data))
       .type('application/json')
   }).catch((err) => {
+    console.error(err)
     return reply(JSON.stringify({}))
       .type('application/json')
   })
@@ -174,6 +176,7 @@ exports.getComments = (request, reply) => {
     return reply(JSON.stringify(resp))
       .type('application/json')
   }).catch((err) => {
+    console.error(err)
     return reply(JSON.stringify(resp))
       .type('application/json')
   })
