@@ -74,6 +74,28 @@ class Product {
     })
   }
 
+  static updateRate(productId, rate) {
+    return new Promise((resolve, reject) => {
+      let sql = 'select rate from product where id = ?'
+      pool.query(sql, [productId], (err, rows, fields) => {
+        if (err) {
+          reject(err)
+        } else {
+          if (rows.length) {
+            sql = 'update product set rate = ? where id =?'
+            pool.query(sql, [rate, productId], (err, rows, fields) => {
+              if (err) {
+                reject(err)
+              } else {
+                resolve(rate)
+              }
+            })
+          }
+        }
+      })
+    })
+  }
+
   static getProductsNumByType(type) {
     return new Promise((resolve, reject) => {
       type = parseInt(type, 10)

@@ -6,7 +6,6 @@ const pool = require('./db')
 class ProductRate {
   static calculateRate(productId, rate) {
     return new Promise((resolve, reject) => {
-      offset = (offset - 1) * limit
       let sql = 'select rate_total, rate_count from product_rate where product_id = ?'
       pool.query(sql, [productId], (err, rows, fields) => {
         if (err) {

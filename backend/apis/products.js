@@ -188,11 +188,18 @@ exports.incrRate = (request, reply) => {
   let rate = request.payload.rate
 
   if (!isNaN(rate)) {
-    ProductRate.calculateRate(productId, Math.round(rate)).then((rst) => {
-      return reply(JSON.stringify({
-        success: true,
-        rate: rst
-      })).type('application/json')
+    ProductRate.calculateRate(productId, Math.round(rate)).then((score) => {
+      Product.updateRate(productId, score).then((rst) => {
+        return reply(JSON.stringify({
+          success: true,
+          rate: rst
+        })).type('application/json')
+      }).catch((err) => {
+        console.error(err)
+        return reply(JSON.stringify({
+          success: false,
+        })).type('application/json')
+      })      
     })
   } else {
     return reply(JSON.stringify({
