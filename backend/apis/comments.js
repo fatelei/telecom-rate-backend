@@ -8,15 +8,14 @@ exports.postComment = (request, reply) => {
   let content = request.payload.content
   let productId = request.params.id
 
-  Comments.createComment(username, content, productId).then((values) => {
-    Product.incrCommentCount(productId).then((product) => {
-      return reply(JSON.stringify(values))
-        .type('application/json')
-    }).catch((err) => {
-      return reply(JSON.stringify({}))
-        .type('application/json')
-    })
+  let p1 = Comments.createComment(username, content, productId)
+  let p2 = Product.incrCommentCount(productId)
+
+  Promise.all([p1, p2]).then((values) => {
+    return reply(JSON.stringify(values))
+      .type('application/json')
   }).catch((err) => {
+    console.error(err)
     return reply(JSON.stringify({}))
       .type('application/json')
   })

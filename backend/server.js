@@ -38,6 +38,12 @@ server.route({
 })
 
 server.route({
+  method: 'PUT',
+  path: '/products/{id}/rate',
+  handler: products.incrRate
+})
+
+server.route({
   method: 'GET',
   path: '/products/{id}/comments',
   handler: products.getComments

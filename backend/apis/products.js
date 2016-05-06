@@ -3,6 +3,7 @@
 const Comments = require('../models/comments')
 const Macro = require('../common/const')
 const Product = require('../models/products')
+const ProductRate = require('../models/product_rate')
 const generatePaging = require('../utils/utils').generatePaging
 
 const formatProduct = (product) => {
@@ -180,4 +181,22 @@ exports.getComments = (request, reply) => {
     return reply(JSON.stringify(resp))
       .type('application/json')
   })
+}
+
+exports.incrRate = (request, reply) => {
+  let productId = request.params.id
+  let rate = request.payload.rate
+
+  if (!isNaN(rate)) {
+    p3 = ProductRate.calculateRate(productId, Math.round(rate)).then((rst) => {
+      return reply(JSON.stringify({
+        success: true,
+        rate: rst
+      })).type('application/json')
+    })
+  } else {
+    return reply(JSON.stringify({
+      success: false
+    })).type('application/json')
+  }
 }

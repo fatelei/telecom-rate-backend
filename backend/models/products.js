@@ -52,7 +52,7 @@ class Product {
 
   static incrCommentCount(productId) {
     return new Promise((resolve, reject) => {
-      let sql = 'select comment_count from product where id = ?'
+      let sql = 'select comment_count, rate from product where id = ?'
       pool.query(sql, [productId], (err, rows, fields) => {
         if (err) {
           reject(err)
@@ -65,7 +65,7 @@ class Product {
               if (err) {
                 reject(err)
               } else {
-                resolve(tmp)
+                resolve(tmp.comment_count)
               }
             })
           }
